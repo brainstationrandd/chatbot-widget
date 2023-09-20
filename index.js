@@ -86,17 +86,17 @@ chat__root.innerHTML += `
     </div>
 `;
 
-var cssstyles = `::-webkit-scrollbar {
+var cssstyles = `#chat__body::-webkit-scrollbar {
   width: 5px;
 }
-::-webkit-scrollbar-track {
+#chat__body::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
-::-webkit-scrollbar-thumb {
+#chat__body::-webkit-scrollbar-thumb {
   background: #6d6d96;
   border-radius: 10px;
 }
-::-webkit-scrollbar-thumb:hover {
+#chat__body::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
@@ -212,7 +212,7 @@ var cssstyles = `::-webkit-scrollbar {
   --transform-scale-x: 0;
   --transform-scale-y: 0;
   /* box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04); */
+  0 10px 10px -5px rgba(0, 0, 0, 0.04); */
   height: 100%;
   transform-origin: right bottom;
   transition: 0.2s ease-out;
@@ -397,8 +397,15 @@ var cssstyles = `::-webkit-scrollbar {
     0 1px 2px 0 rgba(0, 0, 0, 0.06);
   max-width: 70%;
   min-height: 37px;
-  display: flex;
-  align-items: center;
+
+  /* display: flex;
+  flex-wrap: wrap;
+  align-items: center; */
+}
+p {
+  display: block;
+  margin-block-start: 0.4em;
+  margin-block-end: 0.4em;
 }
 
 @media (min-width: 768px) {
@@ -541,9 +548,9 @@ function addMessage(e) {
         <div
           class="bot___message"
         >
-          <div>
+          <p>
             ${data.response}
-          </div>
+          </p>
         </div>
       </div>
           `;
