@@ -1,13 +1,9 @@
-// let tailwindcss = document.createElement("script");
-// tailwindcss.src = "https://cdn.tailwindcss.com/";
-// document.head.appendChild(tailwindcss);
-
 const chat__root = document.createElement("div");
 chat__root.id = "chat__root";
 chat__root.style.zIndex = "99999";
 chat__root.innerHTML += `
 <div class="chat__wrapper">
-      <div id="chat__popup">
+      <div id="chat__popup" style="transform: scale(0)">
         <div class="chat__head">
           <span>ChatBot</span>
           <span onclick="toggleChat()" class="chat__cancel___btn" id="cancel">
@@ -90,7 +86,7 @@ chat__root.innerHTML += `
     </div>
 `;
 
-var cssstyles = ` ::-webkit-scrollbar {
+var cssstyles = `::-webkit-scrollbar {
   width: 5px;
 }
 ::-webkit-scrollbar-track {
@@ -105,7 +101,10 @@ var cssstyles = ` ::-webkit-scrollbar {
 }
 
 #cancel {
-  background: rgba(255, 255, 255, 0.2);
+  /* background: rgba(255, 255, 255, 0.2); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 
@@ -204,16 +203,19 @@ var cssstyles = ` ::-webkit-scrollbar {
 #chat__popup {
   display: flex;
   position: fixed;
+  top: 0;
   flex-direction: column;
-  box-shadow: var(--tw-ring-inset) 0 0 0
-    calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12),
+    0px 0px 2px 0px rgba(145, 158, 171, 0.2);
   width: 100vw;
   background-color: #ffffff;
   --transform-scale-x: 0;
   --transform-scale-y: 0;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04); */
   height: 100%;
+  transform-origin: right bottom;
+  transition: 0.2s ease-out;
 }
 
 .chat__head {
@@ -243,8 +245,7 @@ var cssstyles = ` ::-webkit-scrollbar {
 
 #demo_image {
   display: flex;
-  padding-right: 5rem;
-  padding-left: 5rem;
+
   flex-direction: column;
   gap: 0.5rem;
   justify-content: center;
@@ -278,7 +279,7 @@ var cssstyles = ` ::-webkit-scrollbar {
   border-bottom-width: 1px;
   border: solid 1px #e5e7eb;
   width: 100%;
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.25rem;
   color: #4b5563;
   background-color: #f9fafb;
@@ -303,6 +304,8 @@ var cssstyles = ` ::-webkit-scrollbar {
   border-radius: 9999px;
   width: 4rem;
   height: 4rem;
+  margin-bottom: 20px;
+  margin-right: 20px;
   background-color: #6366f1;
   cursor: pointer;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -393,6 +396,9 @@ var cssstyles = ` ::-webkit-scrollbar {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
     0 1px 2px 0 rgba(0, 0, 0, 0.06);
   max-width: 70%;
+  min-height: 37px;
+  display: flex;
+  align-items: center;
 }
 
 @media (min-width: 768px) {
@@ -400,19 +406,30 @@ var cssstyles = ` ::-webkit-scrollbar {
     right: 2rem;
     bottom: 2rem;
   }
+  .chat__bubble {
+    margin-bottom: 0;
+    margin-right: 0;
+  }
   #chat__popup {
     position: relative;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     border-radius: 0.5rem;
     width: 400px;
+    box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12),
+      0px 0px 2px 0px rgba(145, 158, 171, 0.2);
   }
+  #demo_image {
+    padding-right: 5rem;
+    padding-left: 5rem;
+  }
+
   .chat__head {
     justify-content: center;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
   }
-  .chat__cancel___btn {
+  #cancel {
     display: none;
   }
 }`;
@@ -431,12 +448,13 @@ scrollToBottom();
 function toggleChat() {
   var chatPopup = document.getElementById("chat__popup");
 
-  if (chatPopup.classList.contains("scale-0")) {
-    chatPopup.classList.remove("scale-0");
+  if (chatPopup.style.transform === "scale(0)") {
+    chatPopup.style.transform = "scale(1)";
+    chatPopup.style.transformOrigin = "right bottom"; // Set the transform-origin
     const chatBody = document.getElementById("chat__body");
     chatBody.scrollTop = chatBody.scrollHeight;
   } else {
-    chatPopup.classList.add("scale-0");
+    chatPopup.style.transform = "scale(0)";
   }
 }
 
