@@ -499,7 +499,7 @@ function addMessage(e) {
             <div
           class="bot__avater"
         >
-          <img style="width: 25px" src="./assets/bot.png" />
+          <img style="width: 25px" src="https://raw.githubusercontent.com/brainstationrandd/chatbot-widget/main/assets/bot.png" />
         </div>
         <div
           class="loading__message"
@@ -538,7 +538,7 @@ function addMessage(e) {
         <div
           class="bot__avater"
         >
-        <img style="width: 25px" src="./assets/bot.png" />
+        <img style="width: 25px" src="https://raw.githubusercontent.com/brainstationrandd/chatbot-widget/main/assets/bot.png" />
         </div>
         <div
           class="bot___message"
