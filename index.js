@@ -106,8 +106,6 @@ chat__root.innerHTML += `
     </div>
 `;
 
-document.body.appendChild(chat__root);
-
 var cssstyles = `::-webkit-scrollbar {
     width: 5px;
   }
@@ -213,6 +211,7 @@ var cssstyles = `::-webkit-scrollbar {
 let styleSheet = document.createElement("style");
 styleSheet.innerText = cssstyles;
 document.head.appendChild(styleSheet);
+document.body.appendChild(chat__root);
 
 function scrollToBottom() {
   const chatBody = document.getElementById("chat__body");
