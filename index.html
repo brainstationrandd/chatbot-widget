@@ -102,6 +102,12 @@
           box-shadow: 10014px 0 0 -5px;
         }
       }
+
+      @media screen and (min-width: 720px) {
+        #chat__body {
+          height: calc(80vh - 150px);
+        }
+      }
     </style>
   </head>
   <body>
@@ -110,7 +116,7 @@
     >
       <div
         id="chat__popup"
-        class="fixed md:relative max-md:top-0 md:my-2 flex h-screen w-screen md:h-[600px] md:w-[400px] flex-col bg-white shadow-xl ring-1 ring-gray-900/5 md:rounded-lg"
+        class="fixed md:relative scale-0 max-md:top-0 md:my-2 flex h-[100%] w-screen md:w-[400px] flex-col bg-white shadow-xl ring-1 ring-gray-900/5 md:rounded-lg"
       >
         <div
           class="flex items-center justify-between md:justify-center md:rounded-t-lg bg-indigo-500 p-3 text-2xl font-semibold text-white"
@@ -213,12 +219,12 @@
       function toggleChat() {
         var chatPopup = document.getElementById("chat__popup");
 
-        if (chatPopup.classList.contains("hidden")) {
-          chatPopup.classList.remove("hidden");
+        if (chatPopup.classList.contains("scale-0")) {
+          chatPopup.classList.remove("scale-0");
           const chatBody = document.getElementById("chat__body");
           chatBody.scrollTop = chatBody.scrollHeight;
         } else {
-          chatPopup.classList.add("hidden");
+          chatPopup.classList.add("scale-0");
         }
       }
 
@@ -321,7 +327,7 @@
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACG0lEQVR4nO2awUobURSGj4sG251YKn2Bght37gTBjfgA3fQBBOlW3LmzqKBiu3ErFUpDFtKNLqSLFnRRH0FX1YioC2kXCsZ+5ZqTdriZiTOTmXBvMh+EMCf57/3/3GTm3CEiOQGUgGXgTB9rQL/4BvUQNqviG9RXweZcfAM4CQlyIr4BvAsJsiS+ATwJCVISH8FCfIVuCVKQJTiK9HwQcQTaXRFxBIogijgCaf0UQXKCnlkRoAJcAe+BgdjC5u1s1bTpcTrcNDosP8Yr8EG9l02h1ngTsJ0wiDGQeM+RRkdzkC8Bbc1uRW4SBjGfpk01RpDEOpqD3AbFka12G0FOUwZpqYvyl1WQsK/IYowgiXXkHKSkpqopfuyJdOQZpJNQBFHEEbD8NI7/1ZtOYxFCx4Pc2BeWuyhhggn3eZzvGQSpBcbbNoXnwBZwAXzKIMgU8KdFiHtgIoMgn9XzR2AwtjDhpHMtQrxNOeYDnRP+148Be8Bv4BewC4y2Md4DnRPmBGn9FEFygmJFFHEE0vrpuiAZY67G34ChiDmfAZum5YgawJUgDdZC5nsJHD4mFBcAXqufilUfAX7qa8fAsLgMMKNmNwK1SeBa6wfAC3EdYF4NL+jxtOm4tVYGnooPAOtqelZvCKKdstmz94kvaMttuNRns6l7I74B7AROQOZW57j4CPBDQxwBr8RXqJ9avwZvlnsJsGL+o5LH4H8B8sVQbx1ACWsAAAAASUVORK5CYII=">
             </div>
             <div
-              class="max-w-[80%] break-words ml-3 rounded-xl bg-white px-4 py-2 text-sm shadow"
+              class="max-w-[82%] break-words ml-3 rounded-xl bg-white px-4 py-2 text-sm shadow"
             >
               <div>
                 ${data.response}
