@@ -1,3 +1,7 @@
+let tailwindcss = document.createElement("script");
+tailwindcss.src = "https://cdn.tailwindcss.com/";
+document.head.appendChild(tailwindcss);
+
 const chat__root = document.createElement("div");
 chat__root.id = "chat__root";
 chat__root.innerHTML += `
@@ -208,10 +212,6 @@ var cssstyles = `::-webkit-scrollbar {
 let styleSheet = document.createElement("style");
 styleSheet.innerText = cssstyles;
 document.head.appendChild(styleSheet);
-
-let tailwindcss = document.createElement("script");
-tailwindcss.src = "https://cdn.tailwindcss.com/";
-document.head.appendChild(tailwindcss);
 
 function scrollToBottom() {
   const chatBody = document.getElementById("chat__body");
