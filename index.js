@@ -1,9 +1,10 @@
-let tailwindcss = document.createElement("script");
-tailwindcss.src = "https://cdn.tailwindcss.com/";
-document.head.appendChild(tailwindcss);
+// let tailwindcss = document.createElement("script");
+// tailwindcss.src = "https://cdn.tailwindcss.com/";
+// document.head.appendChild(tailwindcss);
 
 const chat__root = document.createElement("div");
 chat__root.id = "chat__root";
+chat__root.style.zIndex = "99999";
 chat__root.innerHTML += `
 <div
       class="fixed right-0 bottom-0 md:bottom-8 md:right-8 flex flex-col items-end"
