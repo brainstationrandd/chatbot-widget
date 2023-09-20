@@ -6,22 +6,11 @@ const chat__root = document.createElement("div");
 chat__root.id = "chat__root";
 chat__root.style.zIndex = "99999";
 chat__root.innerHTML += `
-<div
-      class="fixed right-0 bottom-0 md:bottom-8 md:right-8 flex flex-col items-end"
-    >
-      <div
-        id="chat__popup"
-        class="fixed md:relative scale-0 max-md:top-0 md:my-2 flex h-[100%] w-screen md:w-[400px] flex-col bg-white shadow-xl ring-1 ring-gray-900/5 md:rounded-lg"
-      >
-        <div
-          class="flex items-center justify-between md:justify-center md:rounded-t-lg bg-indigo-500 p-3 text-2xl font-semibold text-white"
-        >
+<div class="chat__wrapper">
+      <div id="chat__popup">
+        <div class="chat__head">
           <span>ChatBot</span>
-          <span
-            onclick="toggleChat()"
-            class="md:hidden p-2 rounded-full"
-            id="cancel"
-          >
+          <span onclick="toggleChat()" class="chat__cancel___btn" id="cancel">
             <svg
               width="24"
               height="24"
@@ -36,30 +25,28 @@ chat__root.innerHTML += `
             </svg>
           </span>
         </div>
-        <div
-          id="chat__body"
-          class="flex-grow relative items-end p-3 overflow-auto"
-        >
-          <div
-            id="demo_image"
-            class="flex flex-col gap-2 h-full justify-center items-center p-20"
-          >
-            <img src="https://raw.githubusercontent.com/brainstationrandd/chatbot-widget/main/assets/chat_body2.svg" class="w-full" alt="logo" />
-            <h2 class="font-semibold w-full text-center text-indigo-500">
+        <div id="chat__body">
+          <div id="demo_image">
+            <img
+              src="https://raw.githubusercontent.com/brainstationrandd/chatbot-widget/main/assets/chat_body2.svg"
+              style="width: 100%"
+              alt="logo"
+            />
+            <h2 class="chat__title">
               Welcome to the chatBot! How can I help you??
             </h2>
           </div>
         </div>
 
-        <form onsubmit="addMessage(event)" class="relative flex items-center">
+        <form onsubmit="addMessage(event)" class="chat___form">
           <input
             type="text"
             id="chatbox"
-            class="block w-full rounded-b-lg border-b border-gray-300 bg-gray-50 px-3 py-4 pr-10 text-sm text-gray-600 focus:outline-0 focus:ring-0"
+            class="chat__input"
             placeholder="Send a message"
             autocomplete="off"
           />
-          <button type="submit" class="absolute right-2 fill-gray-600">
+          <button type="submit" class="chat__submit">
             <svg
               version="1.0"
               xmlns="http://www.w3.org/2000/svg"
@@ -86,10 +73,7 @@ chat__root.innerHTML += `
         </form>
       </div>
 
-      <div
-        onclick="toggleChat()"
-        class="flex h-16 w-16 max-md:m-5 cursor-pointer items-center justify-center rounded-full bg-indigo-500 shadow-2xl"
-      >
+      <div onclick="toggleChat()" class="chat__bubble">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -106,107 +90,332 @@ chat__root.innerHTML += `
     </div>
 `;
 
-var cssstyles = `::-webkit-scrollbar {
-    width: 5px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #6d6d96;
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+var cssstyles = ` ::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #6d6d96;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 
-  #cancel {
-    background: rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-  }
+#cancel {
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
 
-  #cancel:hover {
-    transition: 0.5s ease;
-    background: rgba(255, 255, 255, 0.3);
-  }
+#cancel:hover {
+  transition: 0.5s ease;
+  background: rgba(255, 255, 255, 0.3);
+}
 
-  .dot-pulse {
-    position: relative;
-    left: -9999px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #9880ff;
-    color: #9880ff;
-    box-shadow: 9999px 0 0 -5px;
-    animation: dot-pulse 1.5s infinite linear;
-    animation-delay: 0.25s;
-  }
-  .dot-pulse::before,
-  .dot-pulse::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #9880ff;
-    color: #9880ff;
-  }
-  .dot-pulse::before {
+.dot-pulse {
+  position: relative;
+  left: -9999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #9880ff;
+  color: #9880ff;
+  box-shadow: 9999px 0 0 -5px;
+  animation: dot-pulse 1.5s infinite linear;
+  animation-delay: 0.25s;
+}
+.dot-pulse::before,
+.dot-pulse::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #9880ff;
+  color: #9880ff;
+}
+.dot-pulse::before {
+  box-shadow: 9984px 0 0 -5px;
+  animation: dot-pulse-before 1.5s infinite linear;
+  animation-delay: 0s;
+}
+.dot-pulse::after {
+  box-shadow: 10014px 0 0 -5px;
+  animation: dot-pulse-after 1.5s infinite linear;
+  animation-delay: 0.5s;
+}
+
+@keyframes dot-pulse-before {
+  0% {
     box-shadow: 9984px 0 0 -5px;
-    animation: dot-pulse-before 1.5s infinite linear;
-    animation-delay: 0s;
   }
-  .dot-pulse::after {
+  30% {
+    box-shadow: 9984px 0 0 2px;
+  }
+  60%,
+  100% {
+    box-shadow: 9984px 0 0 -5px;
+  }
+}
+@keyframes dot-pulse {
+  0% {
+    box-shadow: 9999px 0 0 -5px;
+  }
+  30% {
+    box-shadow: 9999px 0 0 2px;
+  }
+  60%,
+  100% {
+    box-shadow: 9999px 0 0 -5px;
+  }
+}
+@keyframes dot-pulse-after {
+  0% {
     box-shadow: 10014px 0 0 -5px;
-    animation: dot-pulse-after 1.5s infinite linear;
-    animation-delay: 0.5s;
   }
+  30% {
+    box-shadow: 10014px 0 0 2px;
+  }
+  60%,
+  100% {
+    box-shadow: 10014px 0 0 -5px;
+  }
+}
 
-  @keyframes dot-pulse-before {
-    0% {
-      box-shadow: 9984px 0 0 -5px;
-    }
-    30% {
-      box-shadow: 9984px 0 0 2px;
-    }
-    60%,
-    100% {
-      box-shadow: 9984px 0 0 -5px;
-    }
+@media screen and (min-width: 720px) {
+  #chat__body {
+    height: calc(80vh - 150px);
   }
-  @keyframes dot-pulse {
-    0% {
-      box-shadow: 9999px 0 0 -5px;
-    }
-    30% {
-      box-shadow: 9999px 0 0 2px;
-    }
-    60%,
-    100% {
-      box-shadow: 9999px 0 0 -5px;
-    }
-  }
-  @keyframes dot-pulse-after {
-    0% {
-      box-shadow: 10014px 0 0 -5px;
-    }
-    30% {
-      box-shadow: 10014px 0 0 2px;
-    }
-    60%,
-    100% {
-      box-shadow: 10014px 0 0 -5px;
-    }
-  }
+}
 
-  @media screen and (min-width: 720px) {
-    #chat__body {
-      height: calc(80vh - 150px);
-    }
-  }`;
+.chat__wrapper {
+  display: flex;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#chat__popup {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  box-shadow: var(--tw-ring-inset) 0 0 0
+    calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  width: 100vw;
+  background-color: #ffffff;
+  --transform-scale-x: 0;
+  --transform-scale-y: 0;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  height: 100%;
+}
+
+.chat__head {
+  display: flex;
+  padding: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #6366f1;
+}
+
+.chat__cancel___btn {
+  padding: 0.5rem;
+  border-radius: 9999px;
+}
+
+#chat__body {
+  overflow: auto;
+  position: relative;
+  padding: 0.75rem;
+  flex-grow: 1;
+  align-items: flex-end;
+}
+
+#demo_image {
+  display: flex;
+  padding-right: 5rem;
+  padding-left: 5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.chat__title {
+  width: 100%;
+  font-weight: 600;
+  text-align: center;
+  color: #6366f1;
+}
+
+.chat___form {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+*:focus {
+  outline: none;
+}
+.chat__input {
+  display: block;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 2.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-width: 1px;
+  border: solid 1px #e5e7eb;
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #4b5563;
+  background-color: #f9fafb;
+  outline: none;
+}
+
+.chat__submit {
+  position: absolute;
+  right: 0.5rem;
+  border: none;
+  background: none;
+  fill: rgb(77, 78, 78);
+}
+.chat__submit:focus {
+  outline: none;
+}
+
+.chat__bubble {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+  width: 4rem;
+  height: 4rem;
+  background-color: #6366f1;
+  cursor: pointer;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.message__wrapper {
+  padding: 0.375rem;
+  margin-left: 2.5rem;
+  grid-column-start: 1;
+  grid-column-end: 8;
+  border-radius: 0.5rem;
+}
+.bot__message___wrapper {
+  padding: 0.375rem;
+  padding-left: 0;
+  grid-column-start: 1;
+  grid-column-end: 8;
+  border-radius: 0.5rem;
+}
+.sender_message__container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.sender__message {
+  position: relative;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-right: 0.75rem;
+  border-radius: 0.75rem;
+
+  line-height: 1.25rem;
+  background-color: #e0e7ff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.loading__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.bot__avater {
+  display: flex;
+  padding: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+  width: 25px;
+  height: 25px;
+  background-color: #6366f1;
+}
+
+.loading__message {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 1.25rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  overflow-wrap: break-word;
+  background-color: #ffffff;
+  max-width: 80%;
+}
+
+.bot__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+.bot___message {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 0.75rem;
+  border-radius: 0.75rem;
+
+  line-height: 1.25rem;
+  overflow-wrap: break-word;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  max-width: 70%;
+}
+
+@media (min-width: 768px) {
+  .chat__wrapper {
+    right: 2rem;
+    bottom: 2rem;
+  }
+  #chat__popup {
+    position: relative;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    width: 400px;
+  }
+  .chat__head {
+    justify-content: center;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+  .chat__cancel___btn {
+    display: none;
+  }
+}`;
 
 let styleSheet = document.createElement("style");
 styleSheet.innerText = cssstyles;
@@ -243,19 +452,13 @@ function addMessage(e) {
     }
 
     const messageDiv = document.createElement("div");
-    messageDiv.classList.add(
-      "col-start-1",
-      "col-end-8",
-      "rounded-lg",
-      "p-1.5",
-      "ml-10"
-    );
+    messageDiv.classList.add("message__wrapper");
     messageDiv.innerHTML = `
 
-        <div class="flex flex-row-reverse items-end justify-start">
+        <div class="sender_message__container">
 
           <div
-            class="relative mr-3 rounded-xl bg-indigo-100 px-4 py-2 text-sm shadow"
+            class="sender__message"
           >
             <div>${message}</div>
           </div>
@@ -269,25 +472,19 @@ function addMessage(e) {
 
     const LoadingDiv = document.createElement("div");
 
-    LoadingDiv.classList.add(
-      "col-start-1",
-      "col-end-8",
-      "rounded-lg",
-      "p-1.5",
-      "pl-0"
-    );
+    LoadingDiv.classList.add("bot__message___wrapper");
     LoadingDiv.id = "loading";
     LoadingDiv.innerHTML = `
-          <div class="flex flex-row items-center ">
+          <div class="loading__wrapper ">
             <div
-          class="flex p-3 flex-wrap h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500"
+          class="bot__avater"
         >
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACG0lEQVR4nO2awUobURSGj4sG251YKn2Bght37gTBjfgA3fQBBOlW3LmzqKBiu3ErFUpDFtKNLqSLFnRRH0FX1YioC2kXCsZ+5ZqTdriZiTOTmXBvMh+EMCf57/3/3GTm3CEiOQGUgGXgTB9rQL/4BvUQNqviG9RXweZcfAM4CQlyIr4BvAsJsiS+ATwJCVISH8FCfIVuCVKQJTiK9HwQcQTaXRFxBIogijgCaf0UQXKCnlkRoAJcAe+BgdjC5u1s1bTpcTrcNDosP8Yr8EG9l02h1ngTsJ0wiDGQeM+RRkdzkC8Bbc1uRW4SBjGfpk01RpDEOpqD3AbFka12G0FOUwZpqYvyl1WQsK/IYowgiXXkHKSkpqopfuyJdOQZpJNQBFHEEbD8NI7/1ZtOYxFCx4Pc2BeWuyhhggn3eZzvGQSpBcbbNoXnwBZwAXzKIMgU8KdFiHtgIoMgn9XzR2AwtjDhpHMtQrxNOeYDnRP+148Be8Bv4BewC4y2Md4DnRPmBGn9FEFygmJFFHEE0vrpuiAZY67G34ChiDmfAZum5YgawJUgDdZC5nsJHD4mFBcAXqufilUfAX7qa8fAsLgMMKNmNwK1SeBa6wfAC3EdYF4NL+jxtOm4tVYGnooPAOtqelZvCKKdstmz94kvaMttuNRns6l7I74B7AROQOZW57j4CPBDQxwBr8RXqJ9avwZvlnsJsGL+o5LH4H8B8sVQbx1ACWsAAAAASUVORK5CYII=">
+          <img style="width: 25px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACG0lEQVR4nO2awUobURSGj4sG251YKn2Bght37gTBjfgA3fQBBOlW3LmzqKBiu3ErFUpDFtKNLqSLFnRRH0FX1YioC2kXCsZ+5ZqTdriZiTOTmXBvMh+EMCf57/3/3GTm3CEiOQGUgGXgTB9rQL/4BvUQNqviG9RXweZcfAM4CQlyIr4BvAsJsiS+ATwJCVISH8FCfIVuCVKQJTiK9HwQcQTaXRFxBIogijgCaf0UQXKCnlkRoAJcAe+BgdjC5u1s1bTpcTrcNDosP8Yr8EG9l02h1ngTsJ0wiDGQeM+RRkdzkC8Bbc1uRW4SBjGfpk01RpDEOpqD3AbFka12G0FOUwZpqYvyl1WQsK/IYowgiXXkHKSkpqopfuyJdOQZpJNQBFHEEbD8NI7/1ZtOYxFCx4Pc2BeWuyhhggn3eZzvGQSpBcbbNoXnwBZwAXzKIMgU8KdFiHtgIoMgn9XzR2AwtjDhpHMtQrxNOeYDnRP+148Be8Bv4BewC4y2Md4DnRPmBGn9FEFygmJFFHEE0vrpuiAZY67G34ChiDmfAZum5YgawJUgDdZC5nsJHD4mFBcAXqufilUfAX7qa8fAsLgMMKNmNwK1SeBa6wfAC3EdYF4NL+jxtOm4tVYGnooPAOtqelZvCKKdstmz94kvaMttuNRns6l7I74B7AROQOZW57j4CPBDQxwBr8RXqJ9avwZvlnsJsGL+o5LH4H8B8sVQbx1ACWsAAAAASUVORK5CYII=">
         </div>
         <div
-          class="max-w-[80%]  break-words ml-5 rounded-xl bg-white px-4 py-2 text-sm "
+          class="loading__message"
         >
-        <div class="col-3">
+        <div >
     <div class="snippet" data-title="dot-pulse">
       <div class="stage">
         <div class="dot-pulse"></div>
@@ -315,22 +512,16 @@ function addMessage(e) {
       })
       .then((data) => {
         const botDiv = document.createElement("div");
-        botDiv.classList.add(
-          "col-start-1",
-          "col-end-8",
-          "rounded-lg",
-          "p-1.5",
-          "pl-0"
-        );
+        botDiv.classList.add("bot__message___wrapper");
         botDiv.innerHTML = `
-          <div class="flex flex-row items-end">
+          <div class="bot__wrapper">
         <div
-          class="flex p-3 flex-wrap h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500"
+          class="bot__avater"
         >
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACG0lEQVR4nO2awUobURSGj4sG251YKn2Bght37gTBjfgA3fQBBOlW3LmzqKBiu3ErFUpDFtKNLqSLFnRRH0FX1YioC2kXCsZ+5ZqTdriZiTOTmXBvMh+EMCf57/3/3GTm3CEiOQGUgGXgTB9rQL/4BvUQNqviG9RXweZcfAM4CQlyIr4BvAsJsiS+ATwJCVISH8FCfIVuCVKQJTiK9HwQcQTaXRFxBIogijgCaf0UQXKCnlkRoAJcAe+BgdjC5u1s1bTpcTrcNDosP8Yr8EG9l02h1ngTsJ0wiDGQeM+RRkdzkC8Bbc1uRW4SBjGfpk01RpDEOpqD3AbFka12G0FOUwZpqYvyl1WQsK/IYowgiXXkHKSkpqopfuyJdOQZpJNQBFHEEbD8NI7/1ZtOYxFCx4Pc2BeWuyhhggn3eZzvGQSpBcbbNoXnwBZwAXzKIMgU8KdFiHtgIoMgn9XzR2AwtjDhpHMtQrxNOeYDnRP+148Be8Bv4BewC4y2Md4DnRPmBGn9FEFygmJFFHEE0vrpuiAZY67G34ChiDmfAZum5YgawJUgDdZC5nsJHD4mFBcAXqufilUfAX7qa8fAsLgMMKNmNwK1SeBa6wfAC3EdYF4NL+jxtOm4tVYGnooPAOtqelZvCKKdstmz94kvaMttuNRns6l7I74B7AROQOZW57j4CPBDQxwBr8RXqJ9avwZvlnsJsGL+o5LH4H8B8sVQbx1ACWsAAAAASUVORK5CYII=">
+          <img style="width: 25px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACG0lEQVR4nO2awUobURSGj4sG251YKn2Bght37gTBjfgA3fQBBOlW3LmzqKBiu3ErFUpDFtKNLqSLFnRRH0FX1YioC2kXCsZ+5ZqTdriZiTOTmXBvMh+EMCf57/3/3GTm3CEiOQGUgGXgTB9rQL/4BvUQNqviG9RXweZcfAM4CQlyIr4BvAsJsiS+ATwJCVISH8FCfIVuCVKQJTiK9HwQcQTaXRFxBIogijgCaf0UQXKCnlkRoAJcAe+BgdjC5u1s1bTpcTrcNDosP8Yr8EG9l02h1ngTsJ0wiDGQeM+RRkdzkC8Bbc1uRW4SBjGfpk01RpDEOpqD3AbFka12G0FOUwZpqYvyl1WQsK/IYowgiXXkHKSkpqopfuyJdOQZpJNQBFHEEbD8NI7/1ZtOYxFCx4Pc2BeWuyhhggn3eZzvGQSpBcbbNoXnwBZwAXzKIMgU8KdFiHtgIoMgn9XzR2AwtjDhpHMtQrxNOeYDnRP+148Be8Bv4BewC4y2Md4DnRPmBGn9FEFygmJFFHEE0vrpuiAZY67G34ChiDmfAZum5YgawJUgDdZC5nsJHD4mFBcAXqufilUfAX7qa8fAsLgMMKNmNwK1SeBa6wfAC3EdYF4NL+jxtOm4tVYGnooPAOtqelZvCKKdstmz94kvaMttuNRns6l7I74B7AROQOZW57j4CPBDQxwBr8RXqJ9avwZvlnsJsGL+o5LH4H8B8sVQbx1ACWsAAAAASUVORK5CYII=">
         </div>
         <div
-          class="max-w-[82%] break-words ml-3 rounded-xl bg-white px-4 py-2 text-sm shadow"
+          class="bot___message"
         >
           <div>
             ${data.response}
