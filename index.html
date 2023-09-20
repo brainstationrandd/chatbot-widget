@@ -30,15 +30,87 @@
         transition: 0.5s ease;
         background: rgba(255, 255, 255, 0.3);
       }
+
+      .dot-pulse {
+        position: relative;
+        left: -9999px;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #9880ff;
+        color: #9880ff;
+        box-shadow: 9999px 0 0 -5px;
+        animation: dot-pulse 1.5s infinite linear;
+        animation-delay: 0.25s;
+      }
+      .dot-pulse::before,
+      .dot-pulse::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #9880ff;
+        color: #9880ff;
+      }
+      .dot-pulse::before {
+        box-shadow: 9984px 0 0 -5px;
+        animation: dot-pulse-before 1.5s infinite linear;
+        animation-delay: 0s;
+      }
+      .dot-pulse::after {
+        box-shadow: 10014px 0 0 -5px;
+        animation: dot-pulse-after 1.5s infinite linear;
+        animation-delay: 0.5s;
+      }
+
+      @keyframes dot-pulse-before {
+        0% {
+          box-shadow: 9984px 0 0 -5px;
+        }
+        30% {
+          box-shadow: 9984px 0 0 2px;
+        }
+        60%,
+        100% {
+          box-shadow: 9984px 0 0 -5px;
+        }
+      }
+      @keyframes dot-pulse {
+        0% {
+          box-shadow: 9999px 0 0 -5px;
+        }
+        30% {
+          box-shadow: 9999px 0 0 2px;
+        }
+        60%,
+        100% {
+          box-shadow: 9999px 0 0 -5px;
+        }
+      }
+      @keyframes dot-pulse-after {
+        0% {
+          box-shadow: 10014px 0 0 -5px;
+        }
+        30% {
+          box-shadow: 10014px 0 0 2px;
+        }
+        60%,
+        100% {
+          box-shadow: 10014px 0 0 -5px;
+        }
+      }
     </style>
   </head>
   <body>
     <div
-      class="fixed right-0 bottom-0 md:bottom-10 md:right-10 flex flex-col items-end"
+      class="fixed right-0 bottom-0 md:bottom-8 md:right-8 flex flex-col items-end"
     >
       <div
         id="chat__popup"
-        class="fixed hidden md:relative max-md:top-0 md:my-2 flex h-screen w-screen md:h-[600px] md:w-[400px] flex-col bg-white shadow-xl ring-1 ring-gray-900/5 md:rounded-lg"
+        class="fixed md:relative max-md:top-0 md:my-2 flex h-screen w-screen md:h-[600px] md:w-[400px] flex-col bg-white shadow-xl ring-1 ring-gray-900/5 md:rounded-lg"
       >
         <div
           class="flex items-center justify-between md:justify-center md:rounded-t-lg bg-indigo-500 p-3 text-2xl font-semibold text-white"
@@ -59,19 +131,23 @@
               <path
                 d="M13.8782 11.9998L19.606 6.28455C20.1283 5.76215 20.1283 4.91517 19.606 4.39278C19.0837 3.87038 18.2368 3.87038 17.7145 4.39278L12 10.1214L6.28552 4.39278C5.7632 3.87038 4.91634 3.87038 4.39402 4.39278C3.87169 4.91517 3.87169 5.76215 4.39402 6.28455L10.1218 11.9998L4.39402 17.7151C4.14184 17.9653 4 18.3058 4 18.661C4 19.0162 4.14184 19.3568 4.39402 19.6069C4.64413 19.8591 4.9846 20.001 5.33977 20.001C5.69494 20.001 6.03541 19.8591 6.28552 19.6069L12 13.8783L17.7145 19.6069C17.9646 19.8591 18.3051 20.001 18.6602 20.001C19.0154 20.001 19.3559 19.8591 19.606 19.6069C19.8582 19.3568 20 19.0162 20 18.661C20 18.3058 19.8582 17.9653 19.606 17.7151L13.8782 11.9998Z"
                 fill="#FFFFFF"
-              /></svg
-          ></span>
+              />
+            </svg>
+          </span>
         </div>
         <div
           id="chat__body"
           class="flex-grow relative items-end p-3 overflow-auto"
         >
-          <img
+          <div
             id="demo_image"
-            src="assets/chat_body2.svg"
-            class="w-full h-full p-5"
-            alt="logo"
-          />
+            class="flex flex-col gap-2 h-full justify-center items-center p-20"
+          >
+            <img src="assets/chat_body2.svg" class="w-full" alt="logo" />
+            <h2 class="font-semibold w-full text-center text-indigo-500">
+              Welcome to the chatBot! How can I help you??
+            </h2>
+          </div>
         </div>
 
         <form onsubmit="addMessage(event)" class="relative flex items-center">
@@ -162,18 +238,13 @@
             "col-start-1",
             "col-end-8",
             "rounded-lg",
-            "p-3",
-            "pt-0",
+            "p-1.5",
             "ml-10"
           );
           messageDiv.innerHTML = `
-          
+
             <div class="flex flex-row-reverse items-end justify-start">
-              <div
-                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500"
-              >
-                U
-              </div>
+
               <div
                 class="relative mr-3 rounded-xl bg-indigo-100 px-4 py-2 text-sm shadow"
               >
@@ -186,6 +257,39 @@
 
           const headers = new Headers();
           headers.append("Content-Type", "application/json"); // Set the Content-Type header
+
+          const LoadingDiv = document.createElement("div");
+
+          LoadingDiv.classList.add(
+            "col-start-1",
+            "col-end-8",
+            "rounded-lg",
+            "p-1.5",
+            "pl-0"
+          );
+          LoadingDiv.id = "loading";
+          LoadingDiv.innerHTML = `
+              <div class="flex flex-row items-center ">
+                <div
+              class="flex p-3 flex-wrap h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500"
+            >
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACG0lEQVR4nO2awUobURSGj4sG251YKn2Bght37gTBjfgA3fQBBOlW3LmzqKBiu3ErFUpDFtKNLqSLFnRRH0FX1YioC2kXCsZ+5ZqTdriZiTOTmXBvMh+EMCf57/3/3GTm3CEiOQGUgGXgTB9rQL/4BvUQNqviG9RXweZcfAM4CQlyIr4BvAsJsiS+ATwJCVISH8FCfIVuCVKQJTiK9HwQcQTaXRFxBIogijgCaf0UQXKCnlkRoAJcAe+BgdjC5u1s1bTpcTrcNDosP8Yr8EG9l02h1ngTsJ0wiDGQeM+RRkdzkC8Bbc1uRW4SBjGfpk01RpDEOpqD3AbFka12G0FOUwZpqYvyl1WQsK/IYowgiXXkHKSkpqopfuyJdOQZpJNQBFHEEbD8NI7/1ZtOYxFCx4Pc2BeWuyhhggn3eZzvGQSpBcbbNoXnwBZwAXzKIMgU8KdFiHtgIoMgn9XzR2AwtjDhpHMtQrxNOeYDnRP+148Be8Bv4BewC4y2Md4DnRPmBGn9FEFygmJFFHEE0vrpuiAZY67G34ChiDmfAZum5YgawJUgDdZC5nsJHD4mFBcAXqufilUfAX7qa8fAsLgMMKNmNwK1SeBa6wfAC3EdYF4NL+jxtOm4tVYGnooPAOtqelZvCKKdstmz94kvaMttuNRns6l7I74B7AROQOZW57j4CPBDQxwBr8RXqJ9avwZvlnsJsGL+o5LH4H8B8sVQbx1ACWsAAAAASUVORK5CYII=">
+            </div>
+            <div
+              class="max-w-[80%]  break-words ml-5 rounded-xl bg-white px-4 py-2 text-sm "
+            >
+            <div class="col-3">
+        <div class="snippet" data-title="dot-pulse">
+          <div class="stage">
+            <div class="dot-pulse"></div>
+          </div>
+        </div>
+      </div>
+            </div>
+          </div>
+              `;
+          chatBody.appendChild(LoadingDiv);
+          scrollToBottom();
 
           fetch("https://chatbot-backend.sense-23.com/generate", {
             method: "POST", // Specify the HTTP method as POST
@@ -206,32 +310,35 @@
                 "col-start-1",
                 "col-end-8",
                 "rounded-lg",
-                "p-3",
-                "pt-0",
-                "mr-10"
+                "p-1.5",
+                "pl-0"
               );
               botDiv.innerHTML = `
-                <div class="flex w-[80%] flex-row items-end">
-                  <div
-                    class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500"
-                  >
-                    B
-                  </div>
-                  <div
-                    class="relative ml-3 rounded-xl bg-white px-4 py-2 text-sm shadow"
-                  >
-                    <div>${data.response}</div>
-                  </div>
-                </div>
+              <div class="flex flex-row items-end">
+            <div
+              class="flex p-3 flex-wrap h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500"
+            >
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACG0lEQVR4nO2awUobURSGj4sG251YKn2Bght37gTBjfgA3fQBBOlW3LmzqKBiu3ErFUpDFtKNLqSLFnRRH0FX1YioC2kXCsZ+5ZqTdriZiTOTmXBvMh+EMCf57/3/3GTm3CEiOQGUgGXgTB9rQL/4BvUQNqviG9RXweZcfAM4CQlyIr4BvAsJsiS+ATwJCVISH8FCfIVuCVKQJTiK9HwQcQTaXRFxBIogijgCaf0UQXKCnlkRoAJcAe+BgdjC5u1s1bTpcTrcNDosP8Yr8EG9l02h1ngTsJ0wiDGQeM+RRkdzkC8Bbc1uRW4SBjGfpk01RpDEOpqD3AbFka12G0FOUwZpqYvyl1WQsK/IYowgiXXkHKSkpqopfuyJdOQZpJNQBFHEEbD8NI7/1ZtOYxFCx4Pc2BeWuyhhggn3eZzvGQSpBcbbNoXnwBZwAXzKIMgU8KdFiHtgIoMgn9XzR2AwtjDhpHMtQrxNOeYDnRP+148Be8Bv4BewC4y2Md4DnRPmBGn9FEFygmJFFHEE0vrpuiAZY67G34ChiDmfAZum5YgawJUgDdZC5nsJHD4mFBcAXqufilUfAX7qa8fAsLgMMKNmNwK1SeBa6wfAC3EdYF4NL+jxtOm4tVYGnooPAOtqelZvCKKdstmz94kvaMttuNRns6l7I74B7AROQOZW57j4CPBDQxwBr8RXqJ9avwZvlnsJsGL+o5LH4H8B8sVQbx1ACWsAAAAASUVORK5CYII=">
+            </div>
+            <div
+              class="max-w-[80%] break-words ml-3 rounded-xl bg-white px-4 py-2 text-sm shadow"
+            >
+              <div>
+                ${data.response}
+              </div>
+            </div>
+          </div>
               `;
               chatBody.appendChild(botDiv);
               scrollToBottom();
+              document.getElementById("loading").remove();
             })
             .catch((error) => {
               console.error(
                 "There was a problem with the fetch operation:",
                 error
               );
+              document.getElementById("loading").remove();
             });
 
           chatbox.value = "";
