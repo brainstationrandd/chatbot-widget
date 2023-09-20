@@ -86,19 +86,7 @@ chat__root.innerHTML += `
     </div>
 `;
 
-var cssstyles = `#chat__body::-webkit-scrollbar {
-  width: 5px;
-}
-#chat__body::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-#chat__body::-webkit-scrollbar-thumb {
-  background: #6d6d96;
-  border-radius: 10px;
-}
-#chat__body::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+var cssstyles = `
 
 #cancel {
   /* background: rgba(255, 255, 255, 0.2); */
@@ -339,7 +327,7 @@ var cssstyles = `#chat__body::-webkit-scrollbar {
   padding-right: 1rem;
   margin-right: 0.75rem;
   border-radius: 0.75rem;
-
+  border-end-end-radius: 0;
   line-height: 1.25rem;
   background-color: #e0e7ff;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
@@ -389,7 +377,7 @@ var cssstyles = `#chat__body::-webkit-scrollbar {
   padding-right: 1rem;
   margin-left: 0.75rem;
   border-radius: 0.75rem;
-
+  border-end-start-radius: 0;
   line-height: 1.25rem;
   overflow-wrap: break-word;
   background-color: #ffffff;
@@ -422,7 +410,7 @@ p {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     border-radius: 0.5rem;
-    width: 400px;
+    width: 0;
     box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12),
       0px 0px 2px 0px rgba(145, 158, 171, 0.2);
   }
@@ -457,10 +445,17 @@ function toggleChat() {
 
   if (chatPopup.style.transform === "scale(0)") {
     chatPopup.style.transform = "scale(1)";
+
+    if (window.innerWidth <= 768) {
+      chatPopup.style.width = "100%";
+    } else {
+      chatPopup.style.width = "400px";
+    }
     chatPopup.style.transformOrigin = "right bottom"; // Set the transform-origin
     const chatBody = document.getElementById("chat__body");
     chatBody.scrollTop = chatBody.scrollHeight;
   } else {
+    chatPopup.style.width = "0";
     chatPopup.style.transform = "scale(0)";
   }
 }
