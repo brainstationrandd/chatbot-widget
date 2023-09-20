@@ -538,7 +538,7 @@ function addMessage(e) {
         <div
           class="bot__avater"
         >
-          <img style="width: 25px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACG0lEQVR4nO2awUobURSGj4sG251YKn2Bght37gTBjfgA3fQBBOlW3LmzqKBiu3ErFUpDFtKNLqSLFnRRH0FX1YioC2kXCsZ+5ZqTdriZiTOTmXBvMh+EMCf57/3/3GTm3CEiOQGUgGXgTB9rQL/4BvUQNqviG9RXweZcfAM4CQlyIr4BvAsJsiS+ATwJCVISH8FCfIVuCVKQJTiK9HwQcQTaXRFxBIogijgCaf0UQXKCnlkRoAJcAe+BgdjC5u1s1bTpcTrcNDosP8Yr8EG9l02h1ngTsJ0wiDGQeM+RRkdzkC8Bbc1uRW4SBjGfpk01RpDEOpqD3AbFka12G0FOUwZpqYvyl1WQsK/IYowgiXXkHKSkpqopfuyJdOQZpJNQBFHEEbD8NI7/1ZtOYxFCx4Pc2BeWuyhhggn3eZzvGQSpBcbbNoXnwBZwAXzKIMgU8KdFiHtgIoMgn9XzR2AwtjDhpHMtQrxNOeYDnRP+148Be8Bv4BewC4y2Md4DnRPmBGn9FEFygmJFFHEE0vrpuiAZY67G34ChiDmfAZum5YgawJUgDdZC5nsJHD4mFBcAXqufilUfAX7qa8fAsLgMMKNmNwK1SeBa6wfAC3EdYF4NL+jxtOm4tVYGnooPAOtqelZvCKKdstmz94kvaMttuNRns6l7I74B7AROQOZW57j4CPBDQxwBr8RXqJ9avwZvlnsJsGL+o5LH4H8B8sVQbx1ACWsAAAAASUVORK5CYII=">
+        <img style="width: 25px" src="./assets/bot.png" />
         </div>
         <div
           class="bot___message"
