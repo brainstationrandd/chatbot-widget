@@ -186,6 +186,7 @@ var cssstyles = `
   bottom: 0;
   flex-direction: column;
   align-items: flex-end;
+  z-index: 100;
 }
 
 #chat__popup {
@@ -478,7 +479,7 @@ function addMessage(e) {
         <div class="sender_message__container">
 
           <div
-            class="sender__message"
+            class="sender__message dark:text-gray-900"
           >
             <div>${message}</div>
           </div>
@@ -541,7 +542,7 @@ function addMessage(e) {
         <img style="width: 25px" src="https://raw.githubusercontent.com/brainstationrandd/chatbot-widget/main/assets/bot.png" />
         </div>
         <div
-          class="bot___message"
+          class="bot___message dark:text-gray-900"
         >
           <p>
             ${data.response}

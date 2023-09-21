@@ -478,7 +478,7 @@ function addMessage(e) {
         <div class="sender_message__container">
 
           <div
-            class="sender__message"
+            class="sender__message dark:text-gray-900"
           >
             <div>${message}</div>
           </div>
