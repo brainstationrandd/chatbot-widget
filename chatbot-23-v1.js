@@ -5,7 +5,7 @@ chat__root.innerHTML += `
 <div class="chat__wrapper">
       <div id="chat__popup" style="transform: scale(0)">
         <div class="chat__head">
-          <span>ChatBot</span>
+          <span>Sense Bot</span>
           <span onclick="toggleChat()" class="chat__cancel___btn" id="cancel">
             <svg
               width="24"
@@ -29,7 +29,7 @@ chat__root.innerHTML += `
               alt="logo"
             />
             <h2 class="chat__title">
-              Welcome to the chatBot! How can I help you??
+              Welcome to the Sense Bot! How can I help you??
             </h2>
           </div>
         </div>
@@ -70,7 +70,23 @@ chat__root.innerHTML += `
       </div>
 
       <div onclick="toggleChat()" class="chat__bubble">
-        <svg
+      <svg
+      style="display: none; transition: 0.2s ease-out;"
+      id="chat__bubble___close"
+      width="40"
+      height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.8782 11.9998L19.606 6.28455C20.1283 5.76215 20.1283 4.91517 19.606 4.39278C19.0837 3.87038 18.2368 3.87038 17.7145 4.39278L12 10.1214L6.28552 4.39278C5.7632 3.87038 4.91634 3.87038 4.39402 4.39278C3.87169 4.91517 3.87169 5.76215 4.39402 6.28455L10.1218 11.9998L4.39402 17.7151C4.14184 17.9653 4 18.3058 4 18.661C4 19.0162 4.14184 19.3568 4.39402 19.6069C4.64413 19.8591 4.9846 20.001 5.33977 20.001C5.69494 20.001 6.03541 19.8591 6.28552 19.6069L12 13.8783L17.7145 19.6069C17.9646 19.8591 18.3051 20.001 18.6602 20.001C19.0154 20.001 19.3559 19.8591 19.606 19.6069C19.8582 19.3568 20 19.0162 20 18.661C20 18.3058 19.8582 17.9653 19.606 17.7151L13.8782 11.9998Z"
+                fill="#FFFFFF"
+              />
+            </svg>  
+      <svg
+      style="transition: 0.2s ease-out;"
+      id="chat__bubble___open"
           xmlns="http://www.w3.org/2000/svg"
           width="40"
           height="40"
@@ -187,6 +203,7 @@ var cssstyles = `
   flex-direction: column;
   align-items: flex-end;
   z-index: 100;
+
 }
 
 #chat__popup {
@@ -202,7 +219,7 @@ var cssstyles = `
   --transform-scale-y: 0;
   /* box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   0 10px 10px -5px rgba(0, 0, 0, 0.04); */
-  height: 100%;
+  
   transform-origin: right bottom;
   transition: 0.2s ease-out;
 }
@@ -230,6 +247,8 @@ var cssstyles = `
   padding: 0.75rem;
   flex-grow: 1;
   align-items: flex-end;
+  background: #eeeeee7a;
+  box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12), 0px 0px 2px 0px rgba(145, 158, 171, 0.2);
 }
 
 #demo_image {
@@ -252,6 +271,7 @@ var cssstyles = `
   display: flex;
   position: relative;
   align-items: center;
+  background: #eeeeee7a;
 }
 *:focus {
   outline: none;
@@ -298,6 +318,7 @@ var cssstyles = `
   background-color: #6366f1;
   cursor: pointer;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
 }
 
 .message__wrapper {
@@ -363,7 +384,7 @@ var cssstyles = `
   font-size: 0.875rem;
   line-height: 1.25rem;
   overflow-wrap: break-word;
-  background-color: #ffffff;
+  background: transparent;
   max-width: 80%;
 }
 
@@ -414,6 +435,7 @@ p {
     margin-bottom: 0.5rem;
     border-radius: 0.5rem;
     width: 0;
+    height: 0;
     box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12),
       0px 0px 2px 0px rgba(145, 158, 171, 0.2);
   }
@@ -448,6 +470,9 @@ function toggleChat() {
 
   if (chatPopup.style.transform === "scale(0)") {
     chatPopup.style.transform = "scale(1)";
+    document.getElementById("chat__bubble___close").style.display = "block";
+    document.getElementById("chat__bubble___open").style.display = "none";
+    chatPopup.style.height = "100%";
 
     if (window.innerWidth <= 768) {
       chatPopup.style.width = "100%";
@@ -458,6 +483,10 @@ function toggleChat() {
     const chatBody = document.getElementById("chat__body");
     chatBody.scrollTop = chatBody.scrollHeight;
   } else {
+    document.getElementById("chat__bubble___open").style.display = "block";
+    document.getElementById("chat__bubble___close").style.display = "none";
+
+    chatPopup.style.height = "0";
     chatPopup.style.width = "0";
     chatPopup.style.transform = "scale(0)";
   }
