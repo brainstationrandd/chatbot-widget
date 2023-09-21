@@ -321,6 +321,7 @@ var cssstyles = `
   align-items: flex-end;
 }
 .sender__message {
+  color: #1f2937;
   position: relative;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -372,6 +373,7 @@ var cssstyles = `
   align-items: flex-end;
 }
 .bot___message {
+  color: #1f2937;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
@@ -479,7 +481,7 @@ function addMessage(e) {
         <div class="sender_message__container">
 
           <div
-            class="sender__message dark:text-gray-900"
+            class="sender__message "
           >
             <div>${message}</div>
           </div>
@@ -542,7 +544,7 @@ function addMessage(e) {
         <img style="width: 25px" src="https://raw.githubusercontent.com/brainstationrandd/chatbot-widget/main/assets/bot.png" />
         </div>
         <div
-          class="bot___message dark:text-gray-900"
+          class="bot___message"
         >
           <p>
             ${data.response}
