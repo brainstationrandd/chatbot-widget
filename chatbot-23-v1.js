@@ -35,9 +35,6 @@ recognition.onend = () => {
 recognition.onresult = (event) => {
   const message = event.results[0][0].transcript;
   const chatbox = document.getElementById('chatbox');
-  // const lastWord = message.split(' ').pop();
-  // chatbox.value = lastWord;
-  // chatbox.value = message;
   console.log(message);
 
   if (event.results[0].isFinal) {
@@ -57,16 +54,7 @@ recognition.onresult = (event) => {
   }
 };
 
-// recognition.onresult = (event) => {
-//   const message = event.results[0][0].transcript;
-//   const chatbox = document.getElementById('chatbox');
-
-//   chatbox.value = message;
-
-//   if (event.results[0].isFinal) {
-//       addMessage(event);
-//   }
-// };
+;
 
 const chat__root = document.createElement("div");
 chat__root.id = "chat__root";
