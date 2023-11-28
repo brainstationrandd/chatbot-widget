@@ -1,60 +1,55 @@
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 
-recognition.lang = 'en-US';
+recognition.lang = "en-US";
 recognition.interimResults = true;
 recognition.maxAlternatives = 1;
 
-const microphoneIcon = document.querySelector('.fa-microphone');
+const microphoneIcon = document.querySelector(".fa-microphone");
 let isSpeechRecognitionActive = false;
 
 function toggleSpeechRecognition() {
-    if (isSpeechRecognitionActive) {
-        recognition.stop();
-        document.querySelector('.pulse-ring').classList.remove('active');
-        microphoneIcon.style.color = 'rgb(38, 189, 176)';
-    } else {
-        recognition.start();
-        document.querySelector('.pulse-ring').classList.add('active');
-        microphoneIcon.style.color = 'red';
-    }
+  if (isSpeechRecognitionActive) {
+    recognition.stop();
+    document.querySelector(".pulse-ring").classList.remove("active");
+    microphoneIcon.style.color = "rgb(38, 189, 176)";
+  } else {
+    recognition.start();
+    document.querySelector(".pulse-ring").classList.add("active");
+    microphoneIcon.style.color = "red";
+  }
 }
 
 recognition.onstart = () => {
-    console.log('Speech recognition started.');
-    isSpeechRecognitionActive = true;
+  console.log("Speech recognition started.");
+  isSpeechRecognitionActive = true;
 };
 
 recognition.onend = () => {
-    console.log('Speech recognition ended.');
-    isSpeechRecognitionActive = false;
-    document.querySelector('.pulse-ring').classList.remove('active');
-    microphoneIcon.style.color = 'rgb(38, 189, 176)';
+  console.log("Speech recognition ended.");
+  isSpeechRecognitionActive = false;
+  document.querySelector(".pulse-ring").classList.remove("active");
+  microphoneIcon.style.color = "rgb(38, 189, 176)";
 };
 
 recognition.onresult = (event) => {
   const message = event.results[0][0].transcript;
-  const chatbox = document.getElementById('chatbox');
-  console.log(message);
+  const chatbox = document.getElementById("chatbox");
+  chatbox.value = message;
 
   if (event.results[0].isFinal) {
-    chatbox.value = message;
     // ResponsiveVoice.speak(message, 'US English Female', { volume: 1 });
 
-
-
-    console.log('Final Result:', message);
+    console.log("Final Result:", message);
     setTimeout(() => {
       addMessage(event);
-      chatbox.value = ''; 
-
+      chatbox.value = "";
     }, 1000);
   } else {
-    console.log('Interim Result:', message);
+    console.log("Interim Result:", message);
   }
 };
-
-;
 
 const chat__root = document.createElement("div");
 chat__root.id = "chat__root";
