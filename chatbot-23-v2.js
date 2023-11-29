@@ -640,8 +640,7 @@ function addMessage(e) {
     chatBody.appendChild(messageDiv);
 
     const headers = new Headers();
-    headers.append("Content-Type", "application/json"); // Set the Content-Type header
-
+    headers.append("Content-Type", "application/json");
     const LoadingDiv = document.createElement("div");
     LoadingDiv.classList.add("bot__message___wrapper");
     LoadingDiv.id = "loading";
@@ -662,43 +661,85 @@ function addMessage(e) {
     chatBody.appendChild(LoadingDiv);
     scrollToBottom();
 
-    fetch("https://chatbot-backend.sense-23.com/generate", {
+    fetch("https://chatbot-services-test.sense-23.com/voice_ask_nissan", {
       method: "POST",
-      headers: headers,
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        prompt: message,
+        question: message,
       }),
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
-      })
-      .then((data) => {
- 
 
-        const botDiv = document.createElement("div");
-        botDiv.classList.add("bot__message___wrapper");
-        botDiv.innerHTML = `
-          <div class="bot__wrapper">
-            <div class="bot__avater">
-              <img style="width: 25px" src="https://raw.githubusercontent.com/brainstationrandd/chatbot-widget/main/assets/bot.png" />
-            </div>
-            <div class="bot___message">
-              <p>${data.response}</p>
-            </div>
-          </div>
-        `;
-        chatBody.appendChild(botDiv);
-        scrollToBottom();
-        document.getElementById("loading").remove();
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          return response.json();
+        } else {
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder("utf-8");
+          let partialMessage = "";
+
+          function processText({ done, value }) {
+            if (done) {
+              const cleanedLines = partialMessage
+                .split("\n")
+                .map((line) =>
+                  line
+                    .trim()
+                    .replace(/^data: /, "")
+                    .replace(/" "/g, "")
+                    .replace(/^"/, "")
+                    .replace(/"$/, "")
+                    .replace(/\\n\\n/g, "\n")
+                    .replace(/,,/g, ",")
+              )
+                .filter(Boolean);
+
+
+              const botDiv = document.createElement("div");
+              botDiv.classList.add("bot__message___wrapper");
+              botDiv.innerHTML = `
+                <div class="bot__wrapper">
+                  <div class="bot__avater">
+                    <img style="width: 25px" src="https://raw.githubusercontent.com/brainstationrandd/chatbot-widget/main/assets/bot.png" />
+                  </div>
+                  <div class="bot___message">
+
+
+                     <p>${cleanedLines.join(" ")}</p>
+                  </div>
+                </div>
+              `;
+              chatBody.appendChild(botDiv);
+              scrollToBottom();
+              document.getElementById("loading").remove();
+            } else {
+              const text = decoder.decode(value);
+              const cleanedText = text
+                .replace(/^data: /, "")
+                .replace(/" "/g, "")
+                .replace(/^"/, "")
+                .replace(/"$/, "")
+                .replace(/\\n\\n/g, "\n")
+                .replace(/,,/g, ",");
+
+              partialMessage += cleanedText;
+              return reader.read().then(processText);
+            }
+          }
+          return reader.read().then(processText);
+        }
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
-        document.getElementById("loading").remove();
       });
 
+    // Clear input box
     chatbox.value = "";
     scrollToBottom();
   }
