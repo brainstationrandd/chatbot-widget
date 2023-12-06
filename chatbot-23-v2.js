@@ -359,7 +359,7 @@ var cssstyles = `
   padding-right: 0.75rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  padding-right: 2.5rem;
+  padding-right: 5.5rem;
   border-bottom-right-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
   border-bottom-width: 1px;
@@ -371,6 +371,7 @@ var cssstyles = `
   background-color: #f9fafb;
   outline: none;
   transition: background 0.5s;
+  overflow: hidden;
 }
 
 .fa-microphone {
